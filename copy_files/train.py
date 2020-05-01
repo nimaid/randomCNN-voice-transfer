@@ -1,3 +1,26 @@
+#!/usr/bin/env python3
+
+import argparse
+
+# construct the argument parse and parse the arguments
+ap = argparse.ArgumentParser(description="Transfers the style of one voice onto the content of another")
+
+ap.add_argument("-c", "--content", required=True, type=str, dest="content_file",
+	help="path to content audio")
+    
+ap.add_argument("-s", "--style", required=True, type=str, dest="style_file",
+	help="path to style audio")
+    
+ap.add_argument("-o", "--output", required=True, type=str, dest="output_file",
+	help="path to output audio")
+
+args = ap.parse_args()
+
+CONTENT_FILENAME = args.content_file
+STYLE_FILENAME = args.style_file
+OUTPUT_FILENAME = args.output_file
+
+
 import matplotlib
 matplotlib.use('agg')
 import matplotlib.pyplot as plt
@@ -8,11 +31,6 @@ import time
 import math
 cuda = True if torch.cuda.is_available() else False
 
-
-basepath = "input/"
-
-CONTENT_FILENAME = basepath + "boy18.wav"
-STYLE_FILENAME = basepath + "girl52.wav"
 
 a_content, sr = wav2spectrum(CONTENT_FILENAME)
 a_style, sr = wav2spectrum(STYLE_FILENAME)
@@ -96,7 +114,7 @@ for epoch in range(1, num_epochs + 1):
 
 
 gen_spectrum = a_G_var.cpu().data.numpy().squeeze()
-gen_audio_C = "boy18_to_girl52.wav"
+gen_audio_C = OUTPUT_FILENAME
 spectrum2wav(gen_spectrum, sr, gen_audio_C)
 
 plt.figure()

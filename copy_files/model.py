@@ -14,6 +14,7 @@ class RandomCNN(nn.Module):
 
         # 2-D CNN
         self.conv1 = nn.Conv2d(1, OUT_CHANNELS, kernel_size=(3, 1), stride=1, padding=0)
+        #self.conv1 = nn.Conv2d(1, OUT_CHANNELS, kernel_size=(3, 3), stride=1, padding=0)
         self.LeakyReLU = nn.LeakyReLU(0.2)
 
         # Set the random parameters to be constant.
